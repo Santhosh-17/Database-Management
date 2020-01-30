@@ -1,0 +1,175 @@
+NESTED QUERY OR SUB QUERY
+
+CREATING TABLE
+SQL> SELECT* FROM EMPLOYEE;
+
+        ID NAME           SALARY
+---------- ---------- ----------
+         1 saran           20000
+         2 nivas           22000
+         3 sandy           21000
+
+SELECT STATEMENT:
+
+SQL> SELECT* FROM EMPLOYEE
+  2  WHERE ID IN (SELECT ID FROM EMPLOYEE);
+
+        ID NAME           SALARY
+---------- ---------- ----------
+         1 saran           20000
+         2 nivas           22000
+         3 sandy           21000
+-------------------------------------------------------------------------------------------
+INSERT STATEMENT:
+
+SQL> CREATE TABLE CK (ID INT, NAME VARCHAR(10), SALARY INT);
+
+Table created.
+
+SQL> INSERT INTO CK (ID , NAME, SALARY)
+  2  SELECT * FROM EMPLOYEE WHERE ID IN (SELECT ID FROM EMPLOYEE);
+
+3 rows created.
+
+-------------------------------------------------------------------------------------------
+
+UPDATE STATEMENT:
+
+SQL> SELECT * FROM CK;
+
+        ID NAME           SALARY        AGE
+---------- ---------- ---------- ----------
+         1 saran           20000         23
+         2 nivas           22000         29
+         3 sandy           21000         22
+
+
+SQL> UPDATE CK SET SALARY = SALARY * 2.5  WHERE ID IN (SELECT ID FROM CK WHERE AGE>25);
+
+1 row updated.
+
+SQL> SELECT * FROM CK;
+
+        ID NAME           SALARY        AGE
+---------- ---------- ---------- ----------
+         1 saran           20000         23
+         2 nivas           55000         29
+         3 sandy           21000         22
+-------------------------------------------------------------------------------------------
+
+DELETE STATEMENT:
+
+SQL> SELECT * FROM CK;
+
+        ID NAME           SALARY        AGE
+---------- ---------- ---------- ----------
+         1 saran           20000         23
+         2 nivas           55000         29
+         3 sandy           21000         22
+
+SQL> DELETE FROM CK WHERE ID IN (SELECT ID FROM CK WHERE SALARY > 25000);
+
+1 row deleted.
+
+SQL> SELECT * FROM CK;
+
+        ID NAME           SALARY        AGE
+---------- ---------- ---------- ----------
+         1 saran           20000         23
+         3 sandy           21000         22
+
+-------------------------------------------------------------------------------------------
+
+JOINS
+
+
+INNER JOIN:
+
+SQL> SELECT * FROM EMP;
+
+        ID DESIGNATIO     SALARY
+---------- ---------- ----------
+         1 MANAGER         20000
+         3 WORKER          21000
+
+SQL> SELECT * FROM EMPLOYEE INNER JOIN EMP ON EMPLOYEE.ID = EMP.ID;
+
+        ID NAME           SALARY         ID DESIGNATIO     SALARY
+---------- ---------- ---------- ---------- ---------- ----------
+         1 saran           20000          1 MANAGER         20000
+         3 sandy           21000          3 WORKER          21000
+
+			(OR)
+
+
+SQL> SELECT EMP.ID,EMPLOYEE.NAME,EMP.DESIGNATION,EMP.SALARY FROM EMPLOYEE INNER JOIN EMP ON EMPLOYEE.ID = EMP.ID;
+
+        ID NAME       DESIGNATIO     SALARY
+---------- ---------- ---------- ----------
+         1 saran      MANAGER         20000
+         3 sandy      WORKER          21000
+
+LEFT JOIN:
+
+SQL> SELECT EMPLOYEE.ID,EMPLOYEE.NAME,EMP.DESIGNATION,EMPLOYEE.SALARY FROM EMPLOYEE LEFT JOIN EMP ON EMPLOYEE.ID = EMP.ID;
+
+        ID NAME       DESIGNATIO     SALARY
+---------- ---------- ---------- ----------
+         1 saran      MANAGER         20000
+         3 sandy      WORKER          21000
+         2 nivas                      22000
+
+RIGHT JOIN:
+
+SQL> SELECT EMPLOYEE.ID,EMPLOYEE.NAME,EMP.DESIGNATION,EMPLOYEE.SALARY FROM EMPLOYEE RIGHT JOIN EMP ON EMPLOYEE.ID = EMP.ID;
+
+        ID NAME       DESIGNATIO     SALARY
+---------- ---------- ---------- ----------
+         1 saran      MANAGER         20000
+         3 sandy      WORKER          21000
+
+FULL JOIN:
+
+SQL> SELECT EMPLOYEE.ID,EMPLOYEE.NAME,EMP.DESIGNATION,EMPLOYEE.SALARY FROM EMPLOYEE FULL JOIN EMP ON EMPLOYEE.ID = EMP.ID;
+
+        ID NAME       DESIGNATIO     SALARY
+---------- ---------- ---------- ----------
+         1 saran      MANAGER         20000
+         2 nivas                      22000
+         3 sandy      WORKER          21000
+
+
+SELF JOIN:
+
+SQL> SELECT A.ID, A.NAME, A.SALARY, B.ID, B.NAME, B.SALARY FROM EMPLOYEE A, EMPLOYEE B WHERE A.ID != B.ID;
+
+
+        ID NAME           SALARY         ID NAME           SALARY
+---------- ---------- ---------- ---------- ---------- ----------
+         1 saran           20000          2 nivas           22000
+         1 saran           20000          3 sandy           21000
+         1 saran           20000          4 sam             25000
+         1 saran           20000          5 RAM             27000
+         2 nivas           22000          1 saran           20000
+         2 nivas           22000          3 sandy           21000
+         2 nivas           22000          4 sam             25000
+         2 nivas           22000          5 RAM             27000
+         3 sandy           21000          1 saran           20000
+         3 sandy           21000          2 nivas           22000
+         3 sandy           21000          4 sam             25000
+
+        ID NAME           SALARY         ID NAME           SALARY
+---------- ---------- ---------- ---------- ---------- ----------
+         3 sandy           21000          5 RAM             27000
+         4 sam             25000          1 saran           20000
+         4 sam             25000          2 nivas           22000
+         4 sam             25000          3 sandy           21000
+         4 sam             25000          5 RAM             27000
+         5 RAM             27000          1 saran           20000
+         5 RAM             27000          2 nivas           22000
+         5 RAM             27000          3 sandy           21000
+         5 RAM             27000          4 sam             25000
+
+20 rows selected.
+
+
