@@ -1,0 +1,93 @@
+VIEWS:
+
+CREATING VIEW:
+
+SQL> CREATE VIEW EVIEW AS SELECT ID,NAME,SALARY FROM EMPLOYEE ORDER BY ID;
+
+View created.
+
+SQL> SELECT * FROM EVIEW;
+
+        ID NAME           SALARY
+---------- ---------- ----------
+         1 saran           20000
+         2 nivas           22000
+         3 sandy           21000
+         4 sam             25000
+         5 RAM             23000
+
+WITH CHECK OPTION:
+
+SQL> CREATE VIEW EMPV AS SELECT * FROM EMP
+ WHERE ID IS NOT NULL 
+ WITH CHECK OPTION;
+
+View created.
+
+SQL> SELECT * FROM EMPV;
+
+        ID DESIGNATIO     SALARY
+---------- ---------- ----------
+         2 WORKER          22000
+         4 WORKER          25000
+         5 WORKER          23000
+         1 MANAGER         20000
+         3 WORKER          21000
+
+UPDATING VIEW:
+
+UPDATABLE VIEW:
+SQL> UPDATE EVIEW SET SALARY = 34000 WHERE ID = 2;
+
+1 row updated.
+
+SQL> SELECT * FROM EVIEW;
+
+        ID NAME           SALARY
+---------- ---------- ----------
+         1 saran           20000
+         2 nivas           34000
+         3 sandy           21000
+         4 sam             25000
+         5 RAM             23000
+
+INSERTING INTO VIEW:
+
+SQL> insert into eview
+  2  values(5,'ram',23000);
+
+1 row created.
+
+SQL> select * from eview;
+
+        ID NAME           SALARY
+---------- ---------- ----------
+         1 saran           20000
+         2 nivas           34000
+         3 sandy           21000
+         4 sam             25000
+         5 ram             23000
+
+
+DELETING VIEW:
+
+SQL> DELETE FROM EVIEW WHERE ID = 5;
+
+1 row deleted.
+
+SQL> SELECT * FROM EVIEW;
+
+        ID NAME           SALARY
+---------- ---------- ----------
+         1 saran           20000
+         2 nivas           34000
+         3 sandy           21000
+         4 sam             25000
+
+DROPPING VIEW:
+
+SQL> DROP VIEW EVIEW;
+
+View dropped.
+
+
