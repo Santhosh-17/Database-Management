@@ -1,0 +1,89 @@
+CREATING TABLES:
+SQL> CREATE TABLE EMPL (ID INT, FNAME VARCHAR(10),LNAME VARCHAR(20), ADDRESS VARCHAR(20));
+
+Table created.
+
+SQL> ALTER TABLE EMPL ADD CONSTRAINT C_PK PRIMARY KEY (ID);
+
+Table altered.
+
+SQL> CREATE TABLE DEP (ID INT , DEPT VARCHAR(20), FOREIGN KEY(ID) REFERENCES EMPL);
+
+Table created.
+
+INSERTING INTO TABLES:
+SQL> INSERT ALL
+  2  INTO EMPL VALUES(1, 'NIVAS', 'PRAVEEN', 'SALEM')
+  3  INTO EMPL VALUES(2, 'RAGUL', 'PRASATH', 'TIRUPPUR')
+  4  INTO EMPL VALUES(3, 'VJ', 'BHARATHI', 'ATTUR')
+  5  SELECT * FROM DUAL;
+
+3 rows created.
+
+SQL> INSERT ALL
+  2  INTO DEP VALUES( 1, 'TESTING')
+  3  INTO DEP VALUES(2, 'RESEARCH')
+  4  INTO DEP VALUES(3, 'RESEARCH')
+  5  SELECT * FROM DUAL;
+
+3 rows created.
+
+
+SQL> SELECT * FROM EMPL;
+
+        ID FNAME      LNAME                ADDRESS
+---------- ---------- -------------------- --------------------
+         1 NIVAS      PRAVEEN              SALEM
+         2 RAGUL      PRASATH              TIRUPPUR
+         3 VJ         BHARATHI             ATTUR
+
+SQL> SELECT * FROM DEP;
+
+        ID DEPT
+---------- --------------------
+         1 TESTING
+         2 RESEARCH
+         3 RESEARCH
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+1.Write a query to retrieve name and address of all employees who work for the ‘Research’ department.
+
+SQL> SELECT EMPL.FNAME, EMPL.LNAME, EMPL.ADDRESS FROM EMPL INNER JOIN DEP ON EMPL.ID = DEP.ID WHERE DEPT='RESEARCH';
+
+FNAME      LNAME                ADDRESS
+---------- -------------------- --------------------
+RAGUL      PRASATH              TIRUPPUR
+VJ         BHARATHI             ATTUR
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+SQL> CREATE TABLE SV (ID INT, SFNAME VARCHAR(20), SLNAME VARCHAR(20), FOREIGN KEY (ID) REFERENCES EMPL);
+
+Table created.
+
+SQL> INSERT ALL
+  2  INTO SV VALUES(1, 'SANJAY', 'DUTT')
+  3  INTO SV VALUES(2, 'RAM', 'VARMA')
+  4  INTO SV VALUES(3, 'GOKUL', 'KRISHNA')
+  5  SELECT * FROM DUAL;
+
+3 rows created.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.Write a query to retrieve employee’s first and last name and first and last name of his or her immediate supervisor
+
+SQL> SELECT EMPL.FNAME, EMPL.LNAME , SV.SFNAME AS SUPERVISOR_FIRST_NAME , SV.SLNAME AS SUPERVISOR_LAST_NAME FROM EMPL INNER JOIN SV ON EMPL.ID = SV.ID;
+
+FNAME      LNAME                SUPERVISOR_FIRST_NAM SUPERVISOR_LAST_NAME
+---------- -------------------- -------------------- --------------------
+NIVAS      PRAVEEN              SANJAY               DUTT
+RAGUL      PRASATH              RAM                  VARMA
+VJ         BHARATHI             GOKUL                KRISHNA
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Write a query to retrieve list of employees and the projects they are working on, ordered by
+department and with in each department, ordered alphabetically by last name, first name. 
