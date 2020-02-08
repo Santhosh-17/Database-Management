@@ -72,7 +72,7 @@ SQL> select * from eview;
 DELETING VIEW:
 
 SQL> DELETE FROM EVIEW WHERE ID = 5;
-
+LL
 1 row deleted.
 
 SQL> SELECT * FROM EVIEW;
@@ -89,5 +89,85 @@ DROPPING VIEW:
 SQL> DROP VIEW EVIEW;
 
 View dropped.
+
+
+SEQUENCES
+
+CREATING SEQUENCE:
+
+SQL> CREATE SEQUENCE S1
+  2  START WITH 1
+  3  INCREMENT BY 1
+  4  MINVALUE 0
+  5  MAXVALUE 100
+  6  CYCLE;
+
+Sequence created.
+
+INSERTING INTO TABLE:
+
+SQL> INSERT INTO STUDENT VALUES(102, 'SANJAY',S1.NEXTVAL);
+1 rows created.
+
+SQL> INSERT INTO STUDENT VALUES(132, 'GOKUL', S1.NEXTVAL);
+1 rows created. 
+
+SQL> INSERT INTO STUDENT VALUES(101, 'PRANAV', S1.NEXTVAL);
+1 rows created.
+
+SQL> SELECT * FROM STUDENT;
+
+      S_ID S_NAME                     RANK
+---------- -------------------- ----------
+       122 NIVAS                         1
+       102 SANJAY                        2
+       132 GOKUL                         3
+       101 PRANAV                        4
+
+SYNONYMS:
+
+CREATING SYNONYM:
+
+SQL> CREATE SYNONYM S_DETAILS FOR STUDENT;
+
+Synonym created.
+
+SQL> SELECT * FROM STUDENT;
+
+      S_ID S_NAME                     RANK
+---------- -------------------- ----------
+       122 NIVAS                         1
+       102 SANJAY                        2
+       132 GOKUL                         3
+       101 PRANAV                        4
+
+SQL> SELECT * FROM S_DETAILS;
+
+      S_ID S_NAME                     RANK
+---------- -------------------- ----------
+       122 NIVAS                         1
+       102 SANJAY                        2
+       132 GOKUL                         3
+       101 PRANAV                        4
+
+DROP SYNONYM:
+
+SQL> DROP SYNONYM S_DETAILS;
+
+Synonym dropped.
+
+SQL> SELECT * FROM S_DETAILS;
+
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+SQL> SELECT * FROM STUDENT;
+
+      S_ID S_NAME                     RANK
+---------- -------------------- ----------
+       122 NIVAS                         1
+       102 SANJAY                        2
+       132 GOKUL                         3
+       101 PRANAV                        4
 
 
